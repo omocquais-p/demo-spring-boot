@@ -1,0 +1,18 @@
+spring:
+  jpa:
+    hibernate:
+#      properties:
+#        hibernate:
+#            dialect:
+      ddl-auto: create
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  datasource:
+    url: jdbc:tc:postgresql:9.6.8:///testdb
+  test:
+    database:
+      replace: NONE
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.springframework.data: TRACE
