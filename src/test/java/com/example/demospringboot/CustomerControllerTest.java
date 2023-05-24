@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -19,7 +20,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class CustomerControllerTest {
+@Import(MyContainersConfiguration.class)
+class CustomerControllerTest
+//        implements MyContainers
+{
 
   @Autowired
   private MockMvc mockMvc;
@@ -38,6 +42,10 @@ class CustomerControllerTest {
   @DisplayName("Given a customer (firstname and a name), it should create a new customer")
   @Test
   public void create() throws Exception {
+//    System.out.println("postgreSQLContainer.getDatabaseName() = " + postgreSQLContainer.getDatabaseName());
+//    System.out.println("postgreSQLContainer.getJdbcUrl() = " + postgreSQLContainer.getJdbcUrl());
+//    System.out.println("postgreSQLContainer.getFirstMappedPort() = " + postgreSQLContainer.getFirstMappedPort());
+
     long before = customerRepository.count();
     assertEquals(0, before);
     mockMvc.perform(post("/customer")
