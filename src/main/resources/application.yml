@@ -7,6 +7,10 @@ spring:
     url: jdbc:postgresql://localhost:5432/customers
     username: admin
     password: admin
+  data:
+    redis:
+      host: localhost
+      port: 6379
 management:
   info:
     env:

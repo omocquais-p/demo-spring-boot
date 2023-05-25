@@ -9,8 +9,8 @@ import java.util.UUID;
 @Repository
 public interface CustomerRepository extends CrudRepository<Customer, UUID> {
 
-  @Query("SELECT new com.example.demospringboot.CustomerResponse(u.uuid, u.firstName, u.lastName) " +
+  @Query("SELECT new com.example.demospringboot.CustomerResponseDTO(u.uuid, u.firstName, u.lastName) " +
           "FROM Customer u " +
           "WHERE u.uuid= :uuid ")
-  CustomerResponse findCust(UUID uuid);
+  CustomerResponseDTO findCust(UUID uuid);
 }

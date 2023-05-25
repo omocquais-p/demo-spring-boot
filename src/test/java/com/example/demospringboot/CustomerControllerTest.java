@@ -42,10 +42,6 @@ class CustomerControllerTest
   @DisplayName("Given a customer (firstname and a name), it should create a new customer")
   @Test
   public void create() throws Exception {
-//    System.out.println("postgreSQLContainer.getDatabaseName() = " + postgreSQLContainer.getDatabaseName());
-//    System.out.println("postgreSQLContainer.getJdbcUrl() = " + postgreSQLContainer.getJdbcUrl());
-//    System.out.println("postgreSQLContainer.getFirstMappedPort() = " + postgreSQLContainer.getFirstMappedPort());
-
     long before = customerRepository.count();
     assertEquals(0, before);
     mockMvc.perform(post("/customer")

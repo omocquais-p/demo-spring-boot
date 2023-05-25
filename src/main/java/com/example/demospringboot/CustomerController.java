@@ -16,13 +16,13 @@ public class CustomerController {
 
   @PostMapping("/customer")
   @ResponseStatus(HttpStatus.CREATED)
-  public CustomerResponse create(@RequestBody CustomerDTO customerDTO) {
+  public CustomerResponseDTO create(@RequestBody CustomerDTO customerDTO) {
     return customerService.create(customerDTO);
   }
 
   @GetMapping("/customer/{uuid}")
   @ResponseStatus(HttpStatus.ACCEPTED)
-  public CustomerResponse get(@PathVariable String uuid) {
+  public CustomerResponseDTO get(@PathVariable String uuid) {
     return customerService.get(UUID.fromString(uuid));
   }
 }

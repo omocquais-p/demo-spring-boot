@@ -40,12 +40,12 @@ class CustomerRepositoryTest {
     customer.setLastName("Smith111");
 
     Customer saveCustomer = customerRepository.save(customer);
-    CustomerResponse customerResponse = customerRepository.findCust(saveCustomer.getUuid());
+    CustomerResponseDTO customerResponseDTO = customerRepository.findCust(saveCustomer.getUuid());
 
-    assertThat(customerResponse).isNotNull();
-    assertThat(customerResponse.firstName()).isNotNull().isEqualTo(customer.getFirstName());
-    assertThat(customerResponse.name()).isNotNull().isEqualTo(customer.getLastName());
-    assertThat(customerResponse.uuid()).isNotNull();
+    assertThat(customerResponseDTO).isNotNull();
+    assertThat(customerResponseDTO.firstName()).isNotNull().isEqualTo(customer.getFirstName());
+    assertThat(customerResponseDTO.name()).isNotNull().isEqualTo(customer.getLastName());
+    assertThat(customerResponseDTO.uuid()).isNotNull();
 
   }
 }

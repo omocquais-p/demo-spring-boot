@@ -10,3 +10,8 @@ services:
       POSTGRES_DB: customers
     ports:
       - "5432:5432"
+  redis:
+    image: "redis:alpine"
+    hostname: redis
+    ports:
+      - "6379:6379"
