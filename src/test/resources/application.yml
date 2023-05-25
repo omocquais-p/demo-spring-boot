@@ -1,9 +1,6 @@
 spring:
   jpa:
     hibernate:
-#      properties:
-#        hibernate:
-#            dialect:
       ddl-auto: create
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   datasource:
