@@ -1,4 +1,4 @@
-package com.example.demospringboot;
+package com.example.demospringboot.repository;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.UuidGenerator;

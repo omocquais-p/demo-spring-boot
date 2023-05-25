@@ -1,5 +1,9 @@
-package com.example.demospringboot;
+package com.example.demospringboot.controller;
 
+import com.example.demospringboot.configuration.MyContainersConfiguration;
+import com.example.demospringboot.dto.CustomerDTO;
+import com.example.demospringboot.repository.Customer;
+import com.example.demospringboot.repository.CustomerRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import org.junit.jupiter.api.BeforeEach;

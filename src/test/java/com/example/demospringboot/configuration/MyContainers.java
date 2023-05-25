@@ -1,4 +1,4 @@
-package com.example.demospringboot;
+package com.example.demospringboot.configuration;
 
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.testcontainers.containers.GenericContainer;

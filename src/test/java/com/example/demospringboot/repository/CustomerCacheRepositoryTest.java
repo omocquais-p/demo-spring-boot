@@ -1,7 +1,6 @@
 package com.example.demospringboot.repository;
 
-import com.example.demospringboot.CustomerResponseDTO;
-import com.example.demospringboot.MyContainersConfiguration;
+import com.example.demospringboot.configuration.MyContainersConfiguration;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

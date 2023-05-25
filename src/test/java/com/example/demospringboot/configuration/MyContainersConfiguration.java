@@ -1,4 +1,4 @@
-package com.example.demospringboot;
+package com.example.demospringboot.configuration;
 
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.testcontainers.context.ImportTestcontainers;

@@ -1,6 +1,11 @@
-package com.example.demospringboot;
+package com.example.demospringboot.service;
 
+import com.example.demospringboot.dto.CustomerDTO;
+import com.example.demospringboot.repository.Customer;
 import com.example.demospringboot.repository.CustomerCacheRepository;
+import com.example.demospringboot.repository.CustomerRepository;
+import com.example.demospringboot.repository.CustomerResponseDTO;
+import com.example.demospringboot.service.CustomerService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -1,5 +1,6 @@
 package com.example.demospringboot;
 
+import com.example.demospringboot.configuration.MyContainersConfiguration;
 import org.springframework.boot.SpringApplication;
 
 public class TestDemoSpringBootApplication {

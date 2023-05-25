@@ -1,5 +1,8 @@
-package com.example.demospringboot;
+package com.example.demospringboot.controller;
 
+import com.example.demospringboot.dto.CustomerDTO;
+import com.example.demospringboot.repository.CustomerResponseDTO;
+import com.example.demospringboot.service.CustomerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
