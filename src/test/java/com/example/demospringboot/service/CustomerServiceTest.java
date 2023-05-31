@@ -5,7 +5,6 @@ import com.example.demospringboot.repository.Customer;
 import com.example.demospringboot.repository.CustomerCacheRepository;
 import com.example.demospringboot.repository.CustomerRepository;
 import com.example.demospringboot.repository.CustomerResponseDTO;
-import com.example.demospringboot.service.CustomerService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,7 +18,8 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class CustomerServiceTest {
