@@ -18,11 +18,15 @@ management:
   endpoints:
     web:
       exposure:
-        include: [ "health", "info" ]
+        include: [ "health", "info", "env" ]
   endpoint:
+    env:
+      enabled: true
     health:
       probes:
         enabled: true
+    info:
+      enabled: true
   tracing:
     sampling:
       probability: 1.0
