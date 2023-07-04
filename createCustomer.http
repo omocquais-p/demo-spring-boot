@@ -4,7 +4,7 @@ Content-Type: application/json
 {"firstName":  "John", "lastName": "Smith"}
 
 ###
-GET http://localhost:8080/customer/3f47a080-c345-4544-a35f-629fb5a2f5d2
+GET http://localhost:8080/customer/a8f4086e-2278-480d-b740-3e064c24ef98
 Accept: application/json
 ###
 GET http://localhost:8080/actuator/info
