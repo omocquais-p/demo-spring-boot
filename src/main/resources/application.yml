@@ -9,8 +9,8 @@ spring:
     password: admin
   data:
     redis:
-      host: localhost
-      port: 6379
+      host: ${spring.redis.host}
+      password: ${spring.redis.password}
 management:
   info:
     env:
