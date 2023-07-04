@@ -1,13 +1,21 @@
+GET http://localhost:8080/actuator/health
+Accept: application/json
+
+###
 POST http://localhost:8080/customer
 Content-Type: application/json
 
-{"firstName":  "John", "lastName": "Smith"}
+{"firstName":  "John", "lastName": "Smith2"}
 
 ###
-GET http://localhost:8080/customer/a8f4086e-2278-480d-b740-3e064c24ef98
+GET http://localhost:8080/customer/0c7ecccf-f465-44e5-8fb0-6a8067c6707f
 Accept: application/json
+
 ###
 GET http://localhost:8080/actuator/info
 Accept: application/json
 ###
 
+GET http://localhost:8080/actuator/env
+Accept: application/json
+###

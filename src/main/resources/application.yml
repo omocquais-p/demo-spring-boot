@@ -22,6 +22,7 @@ management:
   endpoint:
     env:
       enabled: true
+#      show-values: always
     health:
       probes:
         enabled: true
