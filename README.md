@@ -237,14 +237,26 @@ curl -X GET https://{url}/customer/4fb6df33-61b0-4f43-a4b6-8a5b19805e0d | jq .
 
 ## Build the native image with GraalVM
 
+### Set the JDK
 ```
-sdk use java 22.3.r19-grl
-```
-
-```
-mvn -Pnative native:compile
+sdk install java 17.0.7-graal
+sdk use java 17.0.7-graal
 ```
 
+### Build the native image
 ```
-mvn -Pnative spring-boot:build-image
+mvn clean -Pnative spring-boot:build-image
+```
+
+Successfully built image 'docker.io/library/demo-spring-boot:0.0.1-SNAPSHOT'
+
+### Run the application (with Redis and PostgreSQL)
+```
+cd native
+docker compose up
+```
+
+- TODO: Fix this exception
+```
+java.lang.NoSuchMethodException: org.hibernate.id.uuid.UuidGenerator.<init>
 ```
