@@ -1,18 +1,18 @@
 package com.example.demospringboot.repository;
 
-import com.example.demospringboot.repository.Customer;
-import com.example.demospringboot.repository.CustomerRepository;
-import com.example.demospringboot.repository.CustomerResponseDTO;
+import com.example.demospringboot.configuration.MyContainersConfiguration;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @Testcontainers
+@Import(MyContainersConfiguration.class)
 class CustomerRepositoryTest {
 
   @Autowired

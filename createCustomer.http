@@ -5,10 +5,10 @@ Accept: application/json
 POST http://localhost:8080/customer
 Content-Type: application/json
 
-{"firstName":  "John", "lastName": "Smith2"}
+{"firstName":  "John", "lastName": "Smith4"}
 
 ###
-GET http://localhost:8080/customer/0c7ecccf-f465-44e5-8fb0-6a8067c6707f
+GET http://localhost:8080/customer/80a5ef99-d9f6-46c1-94bf-34bfcae2abf3
 Accept: application/json
 
 ###

@@ -4,15 +4,17 @@ import com.example.demospringboot.configuration.MyContainersConfiguration;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.data.redis.DataRedisTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@DataRedisTest
+@SpringBootTest
+@Testcontainers
 @Import(MyContainersConfiguration.class)
 class CustomerCacheRepositoryTest {
 
