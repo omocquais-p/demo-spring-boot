@@ -1,0 +1,29 @@
+---
+apiVersion: carto.run/v1alpha1
+kind: Workload
+metadata:
+  labels:
+    apps.tanzu.vmware.com/workload-type: web
+  name: demo-spring-boot
+  namespace: developer-ns
+spec:
+  build:
+    env:
+    - name: BP_JVM_VERSION
+      value: "17"
+  serviceClaims:
+  - name: db1
+    ref:
+      apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+      kind: ClassClaim
+      name: postgres-1
+  - name: red1
+    ref:
+      apiVersion: services.apps.tanzu.vmware.com/v1alpha1
+      kind: ClassClaim
+      name: redis-1
+  source:
+    git:
+      ref:
+        branch: master
+      url: https://github.com/omocquais-p/demo-spring-boot.git
