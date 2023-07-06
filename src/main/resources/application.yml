@@ -35,13 +35,13 @@ management:
 info:
   app:
     name: Spring Boot Application Demo
-org:
-  springframework:
-    cloud:
-      bindings:
-        boot:
-          enable: true
-          postgresql:
-            enable: true
-          redis:
-            enable: true
+#org:
+#  springframework:
+#    cloud:
+#      bindings:
+#        boot:
+#          enable: true
+#          postgresql:
+#            enable: true
+#          redis:
+#            enable: true
