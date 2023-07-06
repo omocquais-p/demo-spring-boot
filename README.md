@@ -6,8 +6,8 @@
 
 ```
 brew install redis
-brew services info redis
 brew install jq
+brew install yq
 ```
 
 ## Start the application  with TestContainers support
@@ -16,9 +16,9 @@ brew install jq
 SpringApplication.from(TestDemoSpringBootApplication::main).with(MyContainersConfiguration.class).run(args);
 ```
 
-## Start the application with TestContainers support
+## 
 
-### Start the application
+### Start the application (with TestContainers support)
 ```
 ./mvnw spring-boot:test-run
 ```
@@ -38,7 +38,7 @@ curl -X GET http://localhost:8080/actuator/health | jq .status
 
 ### Call the API to create a new customer
 ```
-curl -X POST http://localhost:8080/customer -H 'Content-Type: application/json' -d '{"firstName":  "John", "lastName": "Smith"}'  | jq .uuid
+curl -X POST http://localhost:8080/customer -H 'Content-Type: application/json' -d '{"firstName":  "John", "lastName": "Smith"}'  | jq -r .uuid
 ```
 
 ### Check Redis
@@ -112,14 +112,17 @@ Try to get CustomerResponseDTO for uuid=0eae8211-e1b5-4a1b-8f04-1e6282ef290d
 CustomerResponseDTO found on Cache for uuid=0eae8211-e1b5-4a1b-8f04-1e6282ef290d
 ```
 
-## Start the application
+## 2 options are available to start the application
 
-- Docker-compose support (compose.yaml) is used to start Redis and PostgreSQL
+- Redis and PostgreSQL
+
+### Docker-compose (compose.yaml)
 
 ```
 ./mvnw spring-boot:run -P docker-compose
 ```
 
+### Testcontainers
 - Testcontainers support is used to start Redis and PostgreSQL
 
 ```
@@ -132,6 +135,8 @@ CustomerResponseDTO found on Cache for uuid=0eae8211-e1b5-4a1b-8f04-1e6282ef290d
 docker ps | grep redis 
 48790f9f72fe   redis:5.0.3-alpine          "docker-entrypoint.s…"   3 minutes ago   Up 3 minutes   0.0.0.0:52943->6379/tcp   fervent_shaw
 ```
+
+- Connect to Redis
 
 ```
 redis-cli -p 52943
@@ -201,7 +206,7 @@ curl -X GET https://{url}/actuator/health | jq .
 - Create a customer with an API call 
 
 ```
-curl -X POST https://{url}/customer -H 'Content-Type: application/json' -d '{"firstName":  "John", "lastName": "Smith"}'  | jq .uuid
+curl -X POST https://{url}/customer -H 'Content-Type: application/json' -d '{"firstName":  "John", "lastName": "Smith"}'  | jq -r .uuid
 ```
 
 - Fisrt call: found from database
