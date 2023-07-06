@@ -158,7 +158,7 @@ tanzu service class-claim create postgres-1 --class postgresql-unmanaged
 - Claims check
 
 ```
-tanzu service class-claim list                                                                                                                                                  ✔
+tanzu service class-claim list
 NAME        CLASS                 READY  REASON  
 postgres-1  postgresql-unmanaged  True   Ready   
 redis-1     redis-unmanaged       True   Ready
