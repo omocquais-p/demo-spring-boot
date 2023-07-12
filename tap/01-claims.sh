@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+tanzu services classes list
+
 echo "REDIS - tanzu service class-claim create redis-1 --class redis-unmanaged"
 tanzu service class-claim create redis-1 --class redis-unmanaged
 

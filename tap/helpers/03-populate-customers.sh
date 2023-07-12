@@ -1,8 +1,13 @@
 #!/usr/bin/env bash
 
 # Get API URL
-url=$(kubectl get route -o yaml | yq '.items[0].status.url')
+url=$(kubectl get route demo-spring-boot -o yaml | yq '.status.url')
 echo "URL: $url"
+
+if [ -z "$url" ]; then echo "URL unavailable"; exit 1; fi
+
+status=$(curl -X GET $url/readyz | jq .status)
+echo "Status: $status"
 
 # Create a customer
 echo "Create a customer"
