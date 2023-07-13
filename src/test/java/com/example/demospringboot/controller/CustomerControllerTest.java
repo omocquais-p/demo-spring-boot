@@ -25,6 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 //@Testcontainers(disabledWithoutDocker = true)
+@Testcontainers
 @AutoConfigureMockMvc
 @Import(MyContainersConfiguration.class)
 class CustomerControllerTest {
