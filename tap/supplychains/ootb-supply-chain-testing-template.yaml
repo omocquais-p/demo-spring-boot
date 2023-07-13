@@ -1,0 +1,7 @@
+#@ load("@ytt:data", "data")
+registry:
+  server: #@ data.values.registry.server
+  repository: #@ data.values.registry.repository
+
+cluster_builder: default
+service_account: default

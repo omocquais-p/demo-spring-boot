@@ -1,4 +1,6 @@
 HELP.md
+tap/supplychains/ootb-supply-chain-testing-values.yaml
+
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/

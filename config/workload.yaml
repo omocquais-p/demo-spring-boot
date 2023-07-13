@@ -4,6 +4,7 @@ kind: Workload
 metadata:
   labels:
     apps.tanzu.vmware.com/workload-type: web
+    apps.tanzu.vmware.com/has-tests: true
     app.kubernetes.io/part-of: demo-spring-boot
     apps.tanzu.vmware.com/auto-configure-actuators: "true"
     tanzu.app.live.view: "true"
@@ -22,6 +23,9 @@ spec:
     - name: annotations
       value:
         autoscaling.knative.dev/min-scale: "1"
+    - name: gitops_ssh_secret
+      value:
+        git-github-ssh
   serviceClaims:
   - name: db1
     ref:
@@ -37,4 +41,4 @@ spec:
     git:
       ref:
         branch: master
-      url: https://github.com/omocquais-p/demo-spring-boot.git
+      url: ssh://git@github.com/omocquais-p/demo-spring-boot.git
