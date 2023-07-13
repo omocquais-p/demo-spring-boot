@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @DataRedisTest
 @ImportAutoConfiguration(ServiceConnectionAutoConfiguration.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Testcontainers(disabledWithoutDocker = true)
+//@Testcontainers(disabledWithoutDocker = true)
 @Import(MyContainersConfiguration.class)
 class CustomerCacheRepositoryTest {
 
