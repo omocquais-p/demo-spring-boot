@@ -8,4 +8,4 @@ tap_repository=$(tanzu package installed get tap --namespace tap-install --value
 export tap_repository
 echo "$tap_repository"
 
-ytt -f ootb-supply-chain-testing-template.yaml --data-value registry.server="$tap_registry_server" --data-value registry.repository="$tap_repository" | kubectl apply -f-
+ytt -f ootb-supply-chain-testing-template.yaml --data-value registry.server="$tap_registry_server" --data-value registry.repository="$tap_repository" > ootb-supply-chain-testing-values.yaml
