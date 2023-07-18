@@ -18,6 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ImportAutoConfiguration(ServiceConnectionAutoConfiguration.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 //@Testcontainers(disabledWithoutDocker = true)
+@Testcontainers
 @Import(MyContainersConfiguration.class)
 class CustomerRepositoryTest {
 
