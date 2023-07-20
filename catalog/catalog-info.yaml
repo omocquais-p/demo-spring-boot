@@ -5,9 +5,13 @@ metadata:
   description: Spring Boot demo (Redis + PostgreSQL)
   tags:
     - tanzu
+    - java
+    - spring
   annotations:
     'backstage.io/kubernetes-label-selector': 'app.kubernetes.io/part-of=demo-spring-boot'
 spec:
   type: service
   lifecycle: experimental
   owner: default-team
+  providesApis:
+    - demo-spring-boot
