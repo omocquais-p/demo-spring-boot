@@ -2,17 +2,14 @@
 
 ## Pre-requisites
 
-### Redis
+### Redis, YQ, JQ, YTT
 
 ```
-brew install redis
-brew install jq
-brew install yq
 brew tap vmware-tanzu/carvel
-brew install ytt
+brew install redis yq jq ytt
 ```
 
-## Start the application  with TestContainers support
+## Start the application  with TestContainers support with IntelliJ
 
 ```
 SpringApplication.from(TestDemoSpringBootApplication::main).with(MyContainersConfiguration.class).run(args);
@@ -272,4 +269,29 @@ docker compose up
 - TODO: Fix this exception
 ```
 java.lang.NoSuchMethodException: org.hibernate.id.uuid.UuidGenerator.<init>
+```
+
+### Deploy on TAP (with scripts)
+
+- Set the KUBECONFIG env variable
+```
+export KUBECONFIG=<path to kubeconfig.yml>
+```
+
+- Install Testing Supplychain
+
+```
+cd tap/supplychains
+./00-install-supply-chain.sh
+```
+
+- Deploy the workload
+```
+cd ..
+./00-install-deploy-workload.sh
+```
+
+- Check the deployment logs in TAP
+```
+tanzu apps workload tail demo-spring-boot --timestamp --since 1h
 ```
