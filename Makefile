@@ -1,24 +1,27 @@
+include .env
+$(eval export $(shell sed -ne 's/ *#.*$$//; /./ s/=.*$$// p' .env))
+
 SHELL=/bin/bash
 
-install:
+kubeconfig:
+	if [ -z ${KUBECONFIG} ]; then echo "KUBECONFIG is unset"; exit 1; else echo "KUBECONFIG is set to '$(KUBECONFIG)'"; fi
+
+install: kubeconfig
 	{ \
 	set -e ;\
-	export KUBECONFIG=$(HOME)/Documents/dev/tap-sandbox/2023-08-17/config ;\
 	./tap/tap-01-install-supply-chain.sh ;\
 	./tap/tap-02-install-deploy-workload.sh ;\
 	}
 
-actuator:
+actuator: kubeconfig
 	{ \
 	set -e ;\
-	export KUBECONFIG=$(HOME)/Documents/dev/tap-sandbox/2023-08-17/config ;\
 	./tap/helpers/01-check-actuator-endpoint.sh ;\
 	}
 
-customers:
+customers: kubeconfig
 	{ \
 	set -e ;\
-	export KUBECONFIG=$(HOME)/Documents/dev/tap-sandbox/2023-08-17/config ;\
 	./tap/helpers/03-populate-customers.sh ;\
 	./tap/helpers/workload-logs.sh ;\
 	}
