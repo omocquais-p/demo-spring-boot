@@ -2,4 +2,8 @@
 
 set -e
 
-tanzu apps workload tail tap-demo-liquibase --component run "$@"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && cd .. && pwd)"
+source "$SCRIPT_DIR/utils.sh"
+
+info "tanzu apps workload tail demo-spring-boot --component run"
+tanzu apps workload tail demo-spring-boot --component run "$@"

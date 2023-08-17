@@ -1,9 +1,18 @@
 #!/usr/bin/env bash
 
-SSH_FOLDER=~/.ssh
-export SSH_PRIVATE_KEY=$(cat $SSH_FOLDER/id_rsa)
-export SSH_IDENTITY=$(cat $SSH_FOLDER/id_rsa)
-export SSH_IDENTITY_PUB=$(cat $SSH_FOLDER/id_rsa.pub)
-export SSH_KNOWN_HOSTS=$(cat $SSH_FOLDER/known_hosts)
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && cd .. && pwd)"
+source "$SCRIPT_DIR/utils.sh"
 
-ytt -f secret-template.yaml --data-value sshprivatekey="$SSH_PRIVATE_KEY" --data-value identity="$SSH_IDENTITY"  --data-value identitypub="$SSH_IDENTITY_PUB" --data-value knownhosts="$SSH_KNOWN_HOSTS" | kubectl apply -f-
+SSH_FOLDER=~/.ssh
+
+SSH_PRIVATE_KEY=$(cat $SSH_FOLDER/id_rsa)
+SSH_IDENTITY=$(cat $SSH_FOLDER/id_rsa)
+SSH_IDENTITY_PUB=$(cat $SSH_FOLDER/id_rsa.pub)
+SSH_KNOWN_HOSTS=$(cat $SSH_FOLDER/known_hosts)
+NAMESPACE=apps
+
+info "Deploying git-github-ssh secret in namespace: $NAMESPACE"
+
+ytt -f "$SCRIPT_DIR"/supplychains/secret-template.yaml --data-value namespace="$NAMESPACE" --data-value sshprivatekey="$SSH_PRIVATE_KEY" --data-value identity="$SSH_IDENTITY"  --data-value identitypub="$SSH_IDENTITY_PUB" --data-value knownhosts="$SSH_KNOWN_HOSTS" | kubectl apply -f-
+
+success "git-github-ssh secret deployed in namespace: $NAMESPACE"
