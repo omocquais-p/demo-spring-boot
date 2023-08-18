@@ -273,22 +273,29 @@ java.lang.NoSuchMethodException: org.hibernate.id.uuid.UuidGenerator.<init>
 
 ### Deploy on TAP (with scripts)
 
-- Set the KUBECONFIG env variable
+- Update the .env file and change the value of KUBECONFIG 
 ```
-export KUBECONFIG=<path to kubeconfig.yml>
-```
-
-- Install Testing Supplychain
-
-```
-cd tap/supplychains
-./00-install-supply-chain.sh
+KUBECONFIG=<path to kubeconfig.yml>
 ```
 
-- Deploy the workload
+- Install Testing Supplychain and Deploy the workload
 ```
-cd ..
-./00-install-deploy-workload.sh
+make install
+```
+
+- Check actuator endpoint
+```
+make actuator
+```
+
+- Call the API to create customers
+```
+make customers
+```
+
+- Set the KUBECONFIG in the bash
+```
+export $(cat .env)
 ```
 
 - Check the deployment logs in TAP

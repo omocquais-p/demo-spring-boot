@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && cd .. && pwd)"
-source "$SCRIPT_DIR/utils.sh"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+source "$SCRIPT_DIR/../utils.sh"
 
 SSH_FOLDER=~/.ssh
 
@@ -13,6 +13,6 @@ NAMESPACE=apps
 
 info "Deploying git-github-ssh secret in namespace: $NAMESPACE"
 
-ytt -f "$SCRIPT_DIR"/supplychains/secret-template.yaml --data-value namespace="$NAMESPACE" --data-value sshprivatekey="$SSH_PRIVATE_KEY" --data-value identity="$SSH_IDENTITY"  --data-value identitypub="$SSH_IDENTITY_PUB" --data-value knownhosts="$SSH_KNOWN_HOSTS" | kubectl apply -f-
+ytt -f "$SCRIPT_DIR"/secret-template.yaml --data-value namespace="$NAMESPACE" --data-value sshprivatekey="$SSH_PRIVATE_KEY" --data-value identity="$SSH_IDENTITY"  --data-value identitypub="$SSH_IDENTITY_PUB" --data-value knownhosts="$SSH_KNOWN_HOSTS" | kubectl apply -f-
 
 success "git-github-ssh secret deployed in namespace: $NAMESPACE"
