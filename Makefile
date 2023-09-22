@@ -25,3 +25,15 @@ customers: kubeconfig
 	./tap/helpers/03-populate-customers.sh ;\
 	./tap/helpers/workload-logs.sh ;\
 	}
+
+patch: kubeconfig
+	{ \
+	set -e ;\
+	./tap/tap-sandbox/patch-sandbox.sh;\
+	}
+
+deploy: kubeconfig
+	{ \
+	set -e ;\
+	./tap/tap-02-install-deploy-workload.sh ;\
+	}
