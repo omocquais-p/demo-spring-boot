@@ -27,9 +27,18 @@ spec:
       value:
         apps.tanzu.vmware.com/pipeline: test
         apps.tanzu.vmware.com/language: java
+    - name: gitops_server_address
+      value: ssh://git@github.com  # important to have the protocol ssh://
+    - name: gitops_repository_owner
+      value: omocquais-p
+    - name: gitops_repository_name
+      value: demo-spring-boot-gitops
+    - name: gitops_branch
+      value: dev
+    - name: gitops_commit_message
+      value: "Update demo-spring-boot config"
     - name: gitops_ssh_secret
-      value:
-        git-github-ssh
+      value: git-github-ssh
   serviceClaims:
   - name: db1
     ref:
