@@ -9,7 +9,6 @@ import org.springframework.boot.test.autoconfigure.data.redis.DataRedisTest;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnectionAutoConfiguration;
 import org.springframework.context.annotation.Import;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -19,7 +18,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @DataRedisTest
 @ImportAutoConfiguration(ServiceConnectionAutoConfiguration.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-//@Testcontainers(disabledWithoutDocker = true)
 @Import(MyContainersConfiguration.class)
 class CustomerCacheRepositoryTest {
 
@@ -40,7 +38,6 @@ class CustomerCacheRepositoryTest {
     assertEquals(customerResponseDTO.uuid(), optCustomerResponseDTO.get().uuid());
     assertEquals(customerResponseDTO.firstName(), optCustomerResponseDTO.get().firstName());
     assertEquals(customerResponseDTO.name(), optCustomerResponseDTO.get().name());
-
   }
 
 }
