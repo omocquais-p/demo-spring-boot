@@ -6,7 +6,7 @@ SHELL=/bin/bash
 kubeconfig:
 	if [ -z ${KUBECONFIG} ]; then echo "KUBECONFIG is unset"; exit 1; else echo "KUBECONFIG is set to '$(KUBECONFIG)'"; fi
 
-install: kubeconfig
+install: patch
 	{ \
 	set -e ;\
 	./tap/tap-01-install-supply-chain.sh ;\
