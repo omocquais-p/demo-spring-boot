@@ -1,0 +1,22 @@
+#_ECHO_OFF
+
+# Prep for demo
+export DEMO_DELAY=120
+# Clean up from previous runs
+
+# Start demo
+clear
+
+#_ECHO_ON
+#_ECHO_# Start the Spring Boot App with Docker compose
+./mvnw spring-boot:run -P docker-compose
+
+#_ECHO_OFF
+
+#_ECHO_ON
+#_ECHO_# Start the Spring Boot App with Test container
+./mvnw spring-boot:test-run
+
+#_ECHO_OFF
+
+#_ECHO_# Questions?

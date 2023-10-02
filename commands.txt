@@ -1,0 +1,68 @@
+#_ECHO_OFF
+
+# Prep for demo
+export DEMO_DELAY=120
+# Clean up from previous runs
+
+# Start demo
+clear
+#_ECHO_ON
+#_ECHO_# Check redis process
+docker ps | grep redis
+#_ECHO_OFF
+
+export REDIS_CONTAINER_ID=$(docker ps|grep redis|awk '{print $1}')
+export REDIS_HOST_PORT=$(docker inspect --format="{{json .}}" $REDIS_CONTAINER_ID | jq -r '.NetworkSettings.Ports["6379/tcp"][0].HostPort')
+
+#_ECHO_ON
+#_ECHO_# Connect to redis and clear all entries
+redis-cli -p ${REDIS_HOST_PORT} FLUSHALL
+redis-cli -p ${REDIS_HOST_PORT} keys '*'
+#_ECHO_OFF
+
+#_ECHO_ON
+#_ECHO_# Check Actuator
+curl -X GET http://localhost:8080/actuator/health | jq .status
+#_ECHO_OFF
+
+#_ECHO_ON
+#_ECHO_# Create a customer
+export UUID=$(curl -X POST http://localhost:8080/customer -H 'Content-Type: application/json' -d '{"firstName":  "John", "lastName": "Smith"}'  | jq -r .uuid)
+echo $UUID
+#_ECHO_OFF
+
+#_ECHO_ON
+#_ECHO_# Check data in redis
+redis-cli -p ${REDIS_HOST_PORT} keys '*'
+#_ECHO_OFF
+
+#_ECHO_ON
+#_ECHO_# Call the API to get the customer http://localhost:8080/customer/$UUID
+curl -X GET http://localhost:8080/customer/$UUID
+#_ECHO_OFF
+
+#_ECHO_ON
+#_ECHO_# we check the logs
+#_ECHO_OFF
+
+#_ECHO_ON
+#_ECHO_# Check data in redis
+redis-cli -p ${REDIS_HOST_PORT} keys '*'
+#_ECHO_OFF
+
+#_ECHO_ON
+#_ECHO_# Check the key
+echo ${REDIS_HOST_PORT}
+redis-cli -p ${REDIS_HOST_PORT} HGETALL "customer:xxxxxxxxxx"
+#_ECHO_OFF
+
+#_ECHO_ON
+#_ECHO_# Call the API to get the customer (2nd call)
+curl -X GET http://localhost:8080/customer/$UUID
+#_ECHO_OFF
+
+#_ECHO_ON
+#_ECHO_# we check the logs
+#_ECHO_OFF
+
+#_ECHO_# Questions?

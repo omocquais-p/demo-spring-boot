@@ -255,20 +255,16 @@ sdk use java 17.0.7-graal
 
 ### Build the native image
 ```
-mvn clean -Pnative spring-boot:build-image
+make native-build
 ```
 
+```
 Successfully built image 'docker.io/library/demo-spring-boot:0.0.1-SNAPSHOT'
+```
 
 ### Run the application (with Redis and PostgreSQL)
 ```
-cd native
-docker compose up
-```
-
-- TODO: Fix this exception
-```
-java.lang.NoSuchMethodException: org.hibernate.id.uuid.UuidGenerator.<init>
+docker compose --profile app up
 ```
 
 ### Deploy on TAP (with scripts)

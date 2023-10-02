@@ -1,0 +1,27 @@
+#_ECHO_OFF
+
+# Prep for demo
+export DEMO_DELAY=120
+export KUBECONFIG=/Users/omocquais/Documents/dev/tap-sandbox/tap/config
+
+# Clean up from previous runs
+tanzu service class-claim delete postgres-1 --yes
+tanzu service class-claim delete redis-1 --yes
+tanzu apps workload delete demo-spring-boot --yes
+tanzu apps workload delete demo-python-app --yes
+
+# Start demo
+clear
+
+#_ECHO_ON
+#_ECHO_# Check the current claims
+tanzu services classes list
+tanzu service class-claim list
+tanzu service class-claim create redis-1 --class redis-unmanaged
+tanzu service class-claim create postgres-1 --class postgresql-unmanaged
+tanzu service class-claim list
+tanzu service class-claim list
+kubectl get httpproxy tap-gui -n tap-gui
+tanzu apps workload apply -f config/workload.yaml --yes
+#_ECHO_OF
+

@@ -3,12 +3,19 @@
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && cd .. && pwd)"
 source "$SCRIPT_DIR/utils.sh"
 
-url=$(kubectl get route -o yaml | yq '.items[0].status.url')
+if [ -z "$1" ]
+then
+  URL=$(kubectl get route -o yaml | yq '.items[0].status.url')
+  ACTUATOR_PATH=readyz
+else
+  URL=$1
+  ACTUATOR_PATH=actuator/health
+fi
 
-info "URL: $url"
+info "URL: $URL"
 
-info "Checking health endpoint : $url/readyz"
-STATUS=$(curl -X GET "$url"/readyz | jq -r .status)
+info "Checking health endpoint : $URL/$ACTUATOR_PATH"
+STATUS=$(curl -X GET "$URL"/"$ACTUATOR_PATH" | jq -r .status)
 if [ "$STATUS" == 'UP' ]
 then
   success "Application is successfully started [status: $STATUS]"
