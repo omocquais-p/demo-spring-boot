@@ -5,6 +5,7 @@ import com.example.demospringboot.repository.CustomerResponseDTO;
 import com.example.demospringboot.repository.Customer;
 import com.example.demospringboot.repository.CustomerCacheRepository;
 import com.example.demospringboot.repository.CustomerRepository;
+import io.micrometer.observation.annotation.Observed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,9 @@ public class CustomerService {
     return new CustomerResponseDTO(savedCustomer.getUuid(), savedCustomer.getFirstName(), savedCustomer.getLastName());
   }
 
+  @Observed(name = "get",
+          contextualName = "getting-customer",
+          lowCardinalityKeyValues = {"userType", "userType2"})
   public CustomerResponseDTO get(UUID uuid) {
     LOGGER.info("Try to get CustomerResponseDTO for uuid={}", uuid);
     Optional<CustomerResponseDTO> optCustomerResponseDTO = customerCacheRepository.findById(uuid);

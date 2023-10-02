@@ -1,7 +1,10 @@
 package com.example.demospringboot;
 
+import io.micrometer.observation.ObservationRegistry;
+import io.micrometer.observation.aop.ObservedAspect;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ImportRuntimeHints;
 
 @SpringBootApplication
@@ -12,4 +15,8 @@ public class DemoSpringBootApplication {
     SpringApplication.run(DemoSpringBootApplication.class, args);
   }
 
+  @Bean
+  ObservedAspect observedAspect(ObservationRegistry observationRegistry) {
+    return new ObservedAspect(observationRegistry);
+  }
 }

@@ -76,6 +76,33 @@
             <artifactId>postgresql</artifactId>
             <version>42.6.0</version>
         </dependency>
+
+        <!--  Observability-->
+        <!-- For Metrics -->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+        </dependency>
+        <!-- Brave version -->
+        <!-- For Tracing -->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-tracing-bridge-brave</artifactId>
+        </dependency>
+        <!-- For Latency Visualization -->
+        <dependency>
+            <groupId>io.zipkin.reporter2</groupId>
+            <artifactId>zipkin-reporter-brave</artifactId>
+        </dependency>
+
+        <!-- For pushing logs out -->
+        <dependency>
+            <groupId>com.github.loki4j</groupId>
+            <artifactId>loki-logback-appender</artifactId>
+            <version>1.3.2</version>
+            <scope>runtime</scope>
+        </dependency>
+
     </dependencies>
 
     <build>

@@ -11,6 +11,8 @@ spring:
     redis:
       host: ${spring.redis.host:localhost}
       password: ${spring.redis.password:admin}
+  application:
+    name: demo-spring-boot
 management:
   info:
     env:
@@ -18,7 +20,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: [ "health", "info", "env" ]
+        include: [ "health", "info", "env", "prometheus" ]
   endpoint:
     env:
       enabled: true
@@ -34,7 +36,15 @@ management:
   health:
     redis:
       enabled: true
+  metrics:
+    distribution:
+      percentiles-histogram:
+        http:
+          server:
+            requests: true
 ## Configuring info endpoint
 info:
   app:
     name: Spring Boot Application Demo
+
+logging.pattern.level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
