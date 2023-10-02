@@ -1,5 +1,4 @@
 version: '3.5'
-
 services:
   postgres:
     container_name: postgres_demo
@@ -22,9 +21,7 @@ services:
       - SPRING_DATASOURCE_USERNAME=admin
       - SPRING_DATASOURCE_PASSWORD=admin
       - SPRING_DATA_REDIS_HOST=redis
-      - SPRING_DATA_REDIS_PASSWORD=admin
-      - REDIS_PWD='admin'
-    command: /bin/sh -c "redis-server --requirepass $$REDIS_PWD"
+      - MANAGEMENT_ENDPOINT_ENV_SHOW_VALUES=ALWAYS
     depends_on:
       - redis
       - postgres

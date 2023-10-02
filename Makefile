@@ -38,7 +38,7 @@ deploy: kubeconfig
 	./tap/tap-02-install-deploy-workload.sh ;\
 	}
 
-native-build:
+build-native:
 	{ \
 	set -e ;\
 	source /Users/omocquais/.sdkman/bin/sdkman-init.sh ;\
@@ -46,14 +46,20 @@ native-build:
 	./mvnw clean -Pnative spring-boot:build-image ;\
 	}
 
-actuator-native:
+actuator-local:
 	{ \
 	set -e ;\
 	./tap/helpers/01-check-actuator-endpoint.sh http://localhost:8080 ;\
 	}
 
-customers-native:
+customers-local:
 	{ \
 	set -e ;\
 	./tap/helpers/03-populate-customers.sh  http://localhost:8080 ;\
+	}
+
+start-native:
+	{ \
+	set -e ;\
+	docker compose --profile app up ;\
 	}
