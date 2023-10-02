@@ -63,3 +63,11 @@ start-native:
 	set -e ;\
 	docker compose --profile app up ;\
 	}
+
+cleanup: kubeconfig
+	{ \
+	set -e ;\
+	tanzu service class-claim delete postgres-1 --yes ;\
+	tanzu service class-claim delete redis-1 --yes ;\
+    tanzu apps workload delete demo-spring-boot --yes ;\
+	}
