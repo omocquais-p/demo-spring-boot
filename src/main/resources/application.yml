@@ -42,9 +42,11 @@ management:
         http:
           server:
             requests: true
+  zipkin:
+    tracing:
+      endpoint: http://tempo:9411/api/v2/spans
 ## Configuring info endpoint
 info:
   app:
     name: Spring Boot Application Demo
-
 logging.pattern.level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"

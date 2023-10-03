@@ -38,6 +38,14 @@ deploy: kubeconfig
 	./tap/tap-02-install-deploy-workload.sh ;\
 	}
 
+build-image:
+	{ \
+	set -e ;\
+	source /Users/omocquais/.sdkman/bin/sdkman-init.sh ;\
+	sdk use java 17.0.8-tem  ;\
+	./mvnw clean spring-boot:build-image ;\
+	}
+
 build-native:
 	{ \
 	set -e ;\
@@ -58,10 +66,10 @@ customers-local:
 	./tap/helpers/03-populate-customers.sh  http://localhost:8080 ;\
 	}
 
-start-native:
+start-app:
 	{ \
 	set -e ;\
-	docker compose --profile app up ;\
+	docker compose --profile observability up ;\
 	}
 
 cleanup: kubeconfig

@@ -1,4 +1,4 @@
-package com.example.demospringboot;
+package com.example.demospringboot.hints;
 
 import org.hibernate.id.factory.spi.CustomIdGeneratorCreationContext;
 import org.springframework.aot.hint.*;
