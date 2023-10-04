@@ -17,17 +17,17 @@ info "URL: $url"
 
 if [ -z "$url" ]; then echo "URL unavailable"; exit 1; fi
 status=$(curl -X GET "$url"/$health | jq .status)
-info "Status: $status"
+info "curl -X GET "$url"/$health - Status: $status"
 
 # Create a customer
-info "Create a customer"
+info "Create a customer - curl -X POST  "$url"/customer -H 'Content-Type: application/json' -d '{"firstName":  "John", "lastName": "Smith"}'"
 uuid=$(curl -X POST "$url"/customer -H 'Content-Type: application/json' -d '{"firstName":  "John", "lastName": "Smith"}'  | jq -r .uuid)
 success "uuid: $uuid"
 
 # Get the customer - 1st call (check in the database and populate the cache)
-info "Get the customer - 1st call (check in the database and populate the cache)"
+info "Get the customer - 1st call (check in the database and populate the cache) - curl -X GET "$url"/customer/"$uuid""
 curl -X GET "$url"/customer/"$uuid" | jq .
 
 # Get the customer - 2nd call (get data from the cache)
-info "Get the customer - 2nd call (get data from the cache)"
+info "Get the customer - 2nd call (get data from the cache) - curl -X GET "$url"/customer/"$uuid""
 curl -X GET "$url"/customer/"$uuid" | jq .
