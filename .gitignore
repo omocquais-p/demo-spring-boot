@@ -1,6 +1,6 @@
 HELP.md
-./tempo-data/
-./tempo-data/blocks
+tempo-data/
+
 tap/supplychains/ootb-supply-chain-testing-values.yaml
 target/
 !.mvn/wrapper/maven-wrapper.jar
