@@ -7,15 +7,16 @@ if [ -z "$1" ]
 then
   # Get API URL
   url=$(kubectl get route demo-spring-boot -o yaml | yq '.status.url')
+  health=readyz
 else
   url=$1
+  health=actuator/health
 fi
 
 info "URL: $url"
 
 if [ -z "$url" ]; then echo "URL unavailable"; exit 1; fi
-
-status=$(curl -X GET "$url"/readyz | jq .status)
+status=$(curl -X GET "$url"/$health | jq .status)
 info "Status: $status"
 
 # Create a customer
