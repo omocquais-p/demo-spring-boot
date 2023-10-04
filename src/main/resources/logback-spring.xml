@@ -9,30 +9,34 @@
         </encoder>
     </appender>
 
-    <appender name="LOKI" class="com.github.loki4j.logback.Loki4jAppender">
-        <http>
-            <url>http://loki:3100/loki/api/v1/push</url>
-        </http>
-        <format>
-            <label>
-                <pattern>app=${appName},host=${HOSTNAME},traceID=%X{traceId:-NONE},level=%level</pattern>
-            </label>
-            <message>
-                <pattern>${FILE_LOG_PATTERN}</pattern>
-            </message>
-            <sortByTime>true</sortByTime>
-        </format>
-    </appender>
+    <if condition='isDefined("ENABLE_LOKI")'>
+        <then>
+            <appender name="LOKI" class="com.github.loki4j.logback.Loki4jAppender">
+                <http>
+                    <url>http://loki:3100/loki/api/v1/push</url>
+                </http>
+                <format>
+                    <label>
+                        <pattern>app=${appName},host=${HOSTNAME},traceID=%X{traceId:-NONE},level=%level</pattern>
+                    </label>
+                    <message>
+                        <pattern>${FILE_LOG_PATTERN}</pattern>
+                    </message>
+                    <sortByTime>true</sortByTime>
+                </format>
+            </appender>
+        </then>
+    </if>
 
     <root level="INFO">
 
         <appender-ref ref="CONSOLE"/>
 
-<!--        <if condition='property("SEND_TO_LOKI").equalsIgnoreCase("true")'>-->
-<!--            <then>-->
-<!--                <appender-ref ref="LOKI"/>-->
-<!--            </then>-->
-<!--        </if>-->
+        <if condition='isDefined("ENABLE_LOKI")'>
+            <then>
+                <appender-ref ref="LOKI"/>
+            </then>
+        </if>
 
     </root>
 </configuration>
