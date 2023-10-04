@@ -20,17 +20,17 @@ management:
   endpoints:
     web:
       exposure:
-        include: [ "health", "info", "env", "prometheus" ]
+        include: [ "health", "info", "env" ]
   endpoint:
     env:
       enabled: true
-#      show-values: always
     health:
       probes:
         enabled: true
     info:
       enabled: true
   tracing:
+    enabled: false
     sampling:
       probability: 1.0
   health:
@@ -42,9 +42,6 @@ management:
         http:
           server:
             requests: true
-  zipkin:
-    tracing:
-      endpoint: http://tempo:9411/api/v2/spans
 ## Configuring info endpoint
 info:
   app:

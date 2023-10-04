@@ -298,3 +298,8 @@ export $(cat .env)
 ```
 tanzu apps workload tail demo-spring-boot --timestamp --since 1h
 ```
+
+## Observability
+- MANAGEMENT_TRACING_ENABLED=true
+- MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE=health,info,env,prometheus
+- MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411/api/v2/spans

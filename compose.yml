@@ -22,6 +22,9 @@ services:
       - SPRING_DATASOURCE_PASSWORD=admin
       - SPRING_DATA_REDIS_HOST=redis
       - MANAGEMENT_ENDPOINT_ENV_SHOW_VALUES=ALWAYS
+      - MANAGEMENT_TRACING_ENABLED=true
+      - MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE=health,info,env,prometheus
+      - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411/api/v2/spans
     depends_on:
       - redis
       - postgres
