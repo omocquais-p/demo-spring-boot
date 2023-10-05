@@ -1,0 +1,42 @@
+#_ECHO_OFF
+
+# Prep for demo
+export DEMO_DELAY=120
+
+# Clean up from previous runs
+
+# Start demo
+clear
+
+#_ECHO_# Start the application with Maven and Get PID: vmmap 24990 | grep Physical
+make start-app-maven
+#_ECHO_OF
+
+#_ECHO_# Check the memory: vmmap 24990 | grep Physical
+#_ECHO_OF
+
+#_ECHO_# Check actuator
+make actuator-local
+#_ECHO_OF
+
+#_ECHO_# Check actuator
+make actuator-local
+#_ECHO_OF
+
+#_ECHO_# Create customers
+make customers-local
+#_ECHO_OF
+
+#_ECHO_ON
+#_ECHO_# Build the container image
+make build-image
+#_ECHO_OF
+
+#_ECHO_# Start the application
+make start-app
+#_ECHO_OF
+
+#_ECHO_ON
+#_ECHO_# Build the native image
+make build-native
+#_ECHO_OF

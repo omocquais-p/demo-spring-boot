@@ -72,6 +72,18 @@ start-app:
 	docker compose --profile observability up ;\
 	}
 
+start-backends:
+	{ \
+	set -e ;\
+	docker compose up ;\
+	}
+
+start-app-maven:
+	{ \
+	set -e ;\
+	./mvnw spring-boot:run ;\
+	}
+
 cleanup: kubeconfig
 	{ \
 	set -e ;\
