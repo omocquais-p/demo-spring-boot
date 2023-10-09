@@ -42,6 +42,8 @@ management:
         http:
           server:
             requests: true
+    tags:
+      application: ${spring.application.name}
 ## Configuring info endpoint
 info:
   app:
