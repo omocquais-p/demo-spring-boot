@@ -1,0 +1,12 @@
+tempo:
+  extraArgs:
+    "distributor.log-received-traces": true
+  receivers:
+    zipkin:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 100m
+      memory: 128Mi

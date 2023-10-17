@@ -1,0 +1,32 @@
+server:
+  ## Prometheus server resource requests and limits
+  ## Ref: http://kubernetes.io/docs/user-guide/compute-resources/
+  ##
+  resources:
+   requests:
+     cpu: 100m
+     memory: 512Mi
+   limits:
+     cpu: 100m
+     memory: 1024Mi
+
+prometheus-node-exporter:
+  ## If false, node-exporter will not be installed
+  ##
+  enabled: false
+
+## alertmanager sub-chart configurable values
+## Please see https://github.com/prometheus-community/helm-charts/tree/main/charts/alertmanager
+##
+alertmanager:
+  ## If false, alertmanager will not be installed
+  ##
+  enabled: false
+
+## kube-state-metrics sub-chart configurable values
+## Please see https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-state-metrics
+##
+kube-state-metrics:
+  ## If false, kube-state-metrics sub-chart will not be installed
+  ##
+  enabled: false

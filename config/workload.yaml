@@ -7,11 +7,11 @@ metadata:
     apps.tanzu.vmware.com/has-tests: "true"  # docs glitch: they show the value witout quotes
     apps.tanzu.vmware.com/language: java
     app.kubernetes.io/part-of: demo-spring-boot
-    apps.tanzu.vmware.com/auto-configure-actuators: "true"
+    apps.tanzu.vmware.com/auto-configure-actuators: "false"
     tanzu.app.live.view: "true"
     tanzu.app.live.view.application.name: demo-spring-boot
     tanzu.app.live.view.application.flavours: spring-boot
-    tanzu.app.live.view.application.actuator.port: "8081"
+#    tanzu.app.live.view.application.actuator.port: "8081"
   name: demo-spring-boot
   namespace: apps
 spec:
@@ -19,10 +19,22 @@ spec:
     env:
     - name: BP_JVM_VERSION
       value: "17"
+  env:
+    - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
+      value: health,info,prometheus
+    - name: MANAGEMENT_TRACING_ENABLED
+      value: true
+    - name: MANAGEMENT_ZIPKIN_TRACING_ENDPOINT
+      value: http://tempo:9411/api/v2/spans
+    - name: ENABLE_LOKI
+      value: true
   params:
     - name: annotations
       value:
         autoscaling.knative.dev/min-scale: "1"
+        prometheus.io/scrape: "true"
+        prometheus.io/path: /actuator/prometheus
+        prometheus.io/port: "8080"
     - name: testing_pipeline_matching_labels
       value:
         apps.tanzu.vmware.com/pipeline: test

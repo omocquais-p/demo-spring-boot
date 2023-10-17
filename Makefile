@@ -29,7 +29,9 @@ customers: kubeconfig
 patch: kubeconfig
 	{ \
 	set -e ;\
-	./tap/tap-sandbox/patch-sandbox.sh;\
+	./tap/tap-sandbox/patch-sandbox.sh ;\
+	./tap/tap-sandbox/patch-sandbox-cpu.sh ;\
+	./tap/tap-sandbox/patch-sandbox-memory.sh ;\
 	}
 
 deploy: kubeconfig
@@ -90,4 +92,28 @@ cleanup: kubeconfig
 	tanzu service class-claim delete postgres-1 --yes ;\
 	tanzu service class-claim delete redis-1 --yes ;\
     tanzu apps workload delete demo-spring-boot --yes ;\
+	}
+
+grafana-forward: kubeconfig
+	{ \
+	set -e ;\
+	./observability/grafana/port-forward.sh  ;\
+	}
+
+observability-install: kubeconfig
+	{ \
+	set -e ;\
+	./observability/install.sh ;\
+	}
+
+observability-uninstall: kubeconfig
+	{ \
+	set -e ;\
+	./observability/uninstall.sh ;\
+	}
+
+forward-app:
+	{ \
+	set -e ;\
+	./observability/application/port-forward.sh ;\
 	}

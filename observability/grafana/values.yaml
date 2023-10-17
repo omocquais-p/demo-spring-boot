@@ -1,0 +1,79 @@
+## TAP-Sandbox - start specific configuration
+readinessProbe:
+  initialDelaySeconds: 100
+  timeoutSeconds: 90
+  failureThreshold: 10
+  httpGet:
+    path: /api/health
+    port: 3000
+livenessProbe:
+  httpGet:
+    path: /api/health
+    port: 3000
+  initialDelaySeconds: 100
+  timeoutSeconds: 90
+  failureThreshold: 10
+## TAP-Sandbox - end specific configuration
+# Grafana limitations
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 100m
+    memory: 512Mi
+sidecar:
+  datasources:
+    enabled: true
+dashboardProviders:
+  dashboardproviders.yaml:
+    apiVersion: 1
+    providers:
+    - name: 'dp1'
+      orgId: 1
+      folder: 'observability'
+      type: file
+      disableDeletion: false
+      editable: true
+      options:
+        path: /var/lib/grafana/dashboards/dp1
+dashboardsConfigMaps:
+  dp1: "grafana-spring-boot-observability"
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+    - name: Prometheus
+      type: prometheus
+      uid: prometheus
+      url: http://prometheus-server
+      access: proxy
+      isDefault: false
+      orgId: 1
+    - name: Loki
+      type: loki
+      uid: loki
+      url: http://loki:3100
+      access: proxy
+      isDefault: false
+      orgId: 1
+      jsonData:
+        derivedFields:
+          - datasourceUid: tempo
+            matcherRegex: "traceID=(\\w+)"
+            name: TraceID
+            url: "$${__value.raw}"
+    - name: Tempo
+      type: tempo
+      uid: tempo
+      url: http://tempo:3100
+      access: proxy
+      isDefault: false
+      orgId: 1
+      basicAuth: false
+      version: 1
+      editable: false
+      jsonData:
+        httpMethod: GET
+        tracesToLogs:
+          datasourceUid: 'loki'

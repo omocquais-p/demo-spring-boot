@@ -1,0 +1,37 @@
+loki:
+  # Auth requires a revers proxy providing basic auth
+  # https://grafana.com/docs/loki/latest/operations/authentication/
+  auth_enabled: false
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 100m
+      memory: 128Mi
+write:
+  replicas: 1
+  resources:
+    limits:
+      cpu: 600m
+    requests:
+      cpu: 300m
+      memory: 384Mi
+read:
+  replicas: 1
+  resources:
+    limits:
+      cpu: 550m
+      memory: 256Mi
+    requests:
+      cpu: 350m
+      memory: 128Mi
+promtail:
+  enabled: true
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      cpu: 100m
+      memory: 128Mi
