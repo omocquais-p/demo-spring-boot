@@ -4,7 +4,7 @@ kind: Workload
 metadata:
   labels:
     apps.tanzu.vmware.com/workload-type: web
-    apps.tanzu.vmware.com/has-tests: "true"  # docs glitch: they show the value witout quotes
+    apps.tanzu.vmware.com/has-tests: "true"  # docs glitch: they show the value without quotes
     apps.tanzu.vmware.com/language: java
     app.kubernetes.io/part-of: demo-spring-boot
     apps.tanzu.vmware.com/auto-configure-actuators: "false"
@@ -22,11 +22,11 @@ spec:
   env:
     - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
       value: health,info,prometheus
-    - name: MANAGEMENT_TRACING_ENABLED
-      value: true
     - name: MANAGEMENT_ZIPKIN_TRACING_ENDPOINT
       value: http://tempo:9411/api/v2/spans
     - name: ENABLE_LOKI
+      value: true
+    - name: MANAGEMENT_TRACING_ENABLED
       value: true
   params:
     - name: annotations

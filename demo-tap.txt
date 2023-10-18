@@ -1,0 +1,39 @@
+#_ECHO_OFF
+
+# Prep for demo
+export DEMO_DELAY=120
+# Clean up from previous runs
+
+# Start demo
+clear
+
+#_ECHO_ON
+#_ECHO_# Deploy a workload without observability
+make install-supply-chain
+make workload-create-claims
+make workload-deploy
+make actuator
+make customers
+make workload-undeploy
+make claims-delete
+#_ECHO_OFF
+
+#_ECHO_ON
+#_ECHO_# Deploy a workload with observability
+make observability-install
+make workload-create-claims
+make workload-deploy-observability
+
+make actuator
+make customers
+
+make workload-undeploy
+make claims-delete
+
+
+#_ECHO_OFF
+
+# https://github.com/omocquais-p/demo-spring-boot-gitops/blob/dev/config/apps/demo-spring-boot/delivery.yml
+
+#_ECHO_# Questions?
+

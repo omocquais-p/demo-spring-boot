@@ -1,8 +1,6 @@
 LOCAL_PATH = os.getenv("LOCAL_PATH", default='.')
 NAMESPACE = os.getenv("NAMESPACE", default='apps')
 
-allow_k8s_contexts('tap-sandbox')
-
 update_settings (k8s_upsert_timeout_secs = 300)
 
 k8s_custom_deploy(
@@ -21,3 +19,5 @@ k8s_custom_deploy(
 
 k8s_resource('demo-spring-boot', port_forwards=["8080:8080"],
             extra_pod_selectors=[{'carto.run/workload-name': 'demo-spring-boot','app.kubernetes.io/component': 'run'}])
+
+allow_k8s_contexts('tap-sandbox')

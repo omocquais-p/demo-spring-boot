@@ -3,43 +3,15 @@ $(eval export $(shell sed -ne 's/ *#.*$$//; /./ s/=.*$$// p' .env))
 
 SHELL=/bin/bash
 
+# Check if the KUBECONFIG environment variable is set
 kubeconfig:
 	if [ -z ${KUBECONFIG} ]; then echo "KUBECONFIG is unset"; exit 1; else echo "KUBECONFIG is set to '$(KUBECONFIG)'"; fi
 
-install: patch
-	{ \
-	set -e ;\
-	./tap/tap-01-install-supply-chain.sh ;\
-	./tap/tap-02-install-deploy-workload.sh ;\
-	}
+################################################################################################################################
+# Local
+################################################################################################################################
 
-actuator: kubeconfig
-	{ \
-	set -e ;\
-	./tap/helpers/01-check-actuator-endpoint.sh ;\
-	}
-
-customers: kubeconfig
-	{ \
-	set -e ;\
-	./tap/helpers/03-populate-customers.sh ;\
-	./tap/helpers/workload-logs.sh ;\
-	}
-
-patch: kubeconfig
-	{ \
-	set -e ;\
-	./tap/tap-sandbox/patch-sandbox.sh ;\
-	./tap/tap-sandbox/patch-sandbox-cpu.sh ;\
-	./tap/tap-sandbox/patch-sandbox-memory.sh ;\
-	}
-
-deploy: kubeconfig
-	{ \
-	set -e ;\
-	./tap/tap-02-install-deploy-workload.sh ;\
-	}
-
+# Local - build the container image (with Maven Spring plugins and cloud native buildpacks)
 build-image:
 	{ \
 	set -e ;\
@@ -48,6 +20,7 @@ build-image:
 	./mvnw clean spring-boot:build-image ;\
 	}
 
+# Local - build the native image (with GraalVM)
 build-native:
 	{ \
 	set -e ;\
@@ -56,64 +29,158 @@ build-native:
 	./mvnw clean -Pnative spring-boot:build-image ;\
 	}
 
+# Local - call the actuator endpoint
 actuator-local:
 	{ \
 	set -e ;\
 	./tap/helpers/01-check-actuator-endpoint.sh http://localhost:8080 ;\
 	}
 
+# Local - call the API to create customers
 customers-local:
 	{ \
 	set -e ;\
 	./tap/helpers/03-populate-customers.sh  http://localhost:8080 ;\
 	}
 
+# Local - Start Redis + postgres  + Observability stack with Docker compose
 start-app:
 	{ \
 	set -e ;\
 	docker compose --profile observability up ;\
 	}
 
+# Local - Start Redis + postgres with Docker compose
 start-backends:
 	{ \
 	set -e ;\
 	docker compose up ;\
 	}
 
+# Local - Run the application
 start-app-maven:
 	{ \
 	set -e ;\
 	./mvnw spring-boot:run ;\
 	}
 
-cleanup: kubeconfig
+################################################################################################################################
+# TAP - Kubernetes
+################################################################################################################################
+
+# TAP - Install Testing supply chain + Gitops SSH secret + Create Claims (Postgres + Redis) + Deploy Workload
+install: patch
+	{ \
+	set -e ;\
+	./tap/tap-01-install-supply-chain.sh ;\
+	./tap/tap-02-install-deploy-workload.sh ;\
+	}
+
+fresh-install: kubeconfig install-supply-chain workload-create-claims
+	{ \
+	set -e ;\
+	}
+
+# TAP - Install Testing supply chain + Gitops SSH secret
+install-supply-chain: kubeconfig patch
+	{ \
+	set -e ;\
+	./tap/tap-01-install-supply-chain.sh ;\
+	}
+
+# TAP - Create Claims
+workload-create-claims: kubeconfig
+	{ \
+	set -e ;\
+	./tap/01-claims.sh ;\
+	}
+
+# TAP - Deploy workload without observability
+workload-deploy: kubeconfig
+	{ \
+	set -e ;\
+	yq '(.spec.env[] | select (.name == "ENABLE_LOKI").value=false | select (.name == "MANAGEMENT_TRACING_ENABLED")).value=false ' config/workload.yaml | tanzu apps workload apply -f- --yes ;\
+	}
+
+# TAP - Deploy workload with observability
+workload-deploy-observability: kubeconfig
+	{ \
+	set -e ;\
+	yq '(.spec.env[] | select (.name == "ENABLE_LOKI").value=true | select (.name == "MANAGEMENT_TRACING_ENABLED")).value=true ' config/workload.yaml | tanzu apps workload apply -f- --yes ;\
+	}
+
+# TAP - Undeploy demo-spring-boot workload
+workload-undeploy: kubeconfig
+	{ \
+	set -e ;\
+	tanzu apps workload delete demo-spring-boot --yes ;\
+	}
+
+# TAP - Call the actuator endpoint to check the status of the application
+actuator: kubeconfig
+	{ \
+	set -e ;\
+	./tap/helpers/01-check-actuator-endpoint.sh ;\
+	}
+
+# TAP - Call the API to create customers
+customers: kubeconfig
+	{ \
+	set -e ;\
+	./tap/helpers/03-populate-customers.sh ;\
+	./tap/helpers/workload-logs.sh ;\
+	}
+
+# TAP - Patch the CPU and the memory to change the quotas
+patch: kubeconfig
+	{ \
+	set -e ;\
+	./tap/tap-sandbox/patch-sandbox.sh ;\
+	./tap/tap-sandbox/patch-sandbox-cpu.sh ;\
+	./tap/tap-sandbox/patch-sandbox-memory.sh ;\
+	}
+
+# TAP - deploy the demo-springboot workload on TAP
+deploy: kubeconfig
+	{ \
+	set -e ;\
+	./tap/tap-02-install-deploy-workload.sh ;\
+	}
+
+# TAP - cleanup claims
+claims-delete: kubeconfig
 	{ \
 	set -e ;\
 	tanzu service class-claim delete postgres-1 --yes ;\
 	tanzu service class-claim delete redis-1 --yes ;\
-    tanzu apps workload delete demo-spring-boot --yes ;\
 	}
 
-grafana-forward: kubeconfig
-	{ \
-	set -e ;\
-	./observability/grafana/port-forward.sh  ;\
-	}
-
+# Kubernetes - Install the Observability Helm Charts (Grafana + Prometheus + Loki + Tempo)
 observability-install: kubeconfig
 	{ \
 	set -e ;\
 	./observability/install.sh ;\
 	}
 
+# Kubernetes - Uninstall the Observability Helm Charts (Grafana + Prometheus + Loki + Tempo)
 observability-uninstall: kubeconfig
 	{ \
 	set -e ;\
 	./observability/uninstall.sh ;\
 	}
 
+# Port-forward the demo-spring-boot Application
 forward-app:
 	{ \
 	set -e ;\
 	./observability/application/port-forward.sh ;\
 	}
+
+# Port-forward Grafana
+grafana-forward: kubeconfig
+	{ \
+	set -e ;\
+	./observability/grafana/port-forward.sh  ;\
+	}
+
+# TODO Build native image with pack CLI - BP_NATIVE_IMAGE env must be set

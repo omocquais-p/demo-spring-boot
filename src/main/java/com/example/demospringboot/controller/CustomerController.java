@@ -28,4 +28,9 @@ public class CustomerController {
   public CustomerResponseDTO get(@PathVariable String uuid) {
     return customerService.get(UUID.fromString(uuid));
   }
+
+  @RequestMapping("/")
+  public String index() {
+    return "Greetings from Spring Boot + Tanzu !!!";
+  }
 }
