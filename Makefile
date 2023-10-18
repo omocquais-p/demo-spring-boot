@@ -99,14 +99,21 @@ workload-create-claims: kubeconfig
 workload-deploy: kubeconfig
 	{ \
 	set -e ;\
-	yq '(.spec.env[] | select (.name == "ENABLE_LOKI").value=false | select (.name == "MANAGEMENT_TRACING_ENABLED")).value=false ' config/workload.yaml | tanzu apps workload apply -f- --yes ;\
+	yq '(.spec.env[] | select(.name == "ENABLE_LOKI") | .value) = "false" | (.spec.env[] | select(.name == "MANAGEMENT_TRACING_ENABLED") | .value) = "false"' config/workload.yaml  | tanzu apps workload apply -f- --yes ;\
 	}
 
 # TAP - Deploy workload with observability
 workload-deploy-observability: kubeconfig
 	{ \
 	set -e ;\
-	yq '(.spec.env[] | select (.name == "ENABLE_LOKI").value=true | select (.name == "MANAGEMENT_TRACING_ENABLED")).value=true ' config/workload.yaml | tanzu apps workload apply -f- --yes ;\
+	yq '(.spec.env[] | select(.name == "ENABLE_LOKI") | .value) = "true" | (.spec.env[] | select(.name == "MANAGEMENT_TRACING_ENABLED") | .value) = "true"' config/workload.yaml  | tanzu apps workload apply -f- --yes ;\
+	}
+
+# TAP - Deploy workload with observability and a native image
+workload-deploy-observability-native: kubeconfig
+	{ \
+	set -e ;\
+	yq '(.spec.build.env[] | select(.name == "BP_NATIVE_IMAGE") | .value) = "true" | (.spec.build.env[] | select(.name == "BP_MAVEN_BUILD_ARGUMENTS") | .value) = "-Pnative -Dmaven.test.skip=true --no-transfer-progress package" | (.spec.env[] | select (.name == "ENABLE_LOKI").value=true | select (.name == "MANAGEMENT_TRACING_ENABLED")).value=true' config/workload.yaml  | tanzu apps workload apply -f- --yes ;\
 	}
 
 # TAP - Undeploy demo-spring-boot workload
@@ -134,7 +141,6 @@ customers: kubeconfig
 # TAP - Patch the CPU and the memory to change the quotas
 patch: kubeconfig
 	{ \
-	set -e ;\
 	./tap/tap-sandbox/patch-sandbox.sh ;\
 	./tap/tap-sandbox/patch-sandbox-cpu.sh ;\
 	./tap/tap-sandbox/patch-sandbox-memory.sh ;\
@@ -182,5 +188,3 @@ grafana-forward: kubeconfig
 	set -e ;\
 	./observability/grafana/port-forward.sh  ;\
 	}
-
-# TODO Build native image with pack CLI - BP_NATIVE_IMAGE env must be set
