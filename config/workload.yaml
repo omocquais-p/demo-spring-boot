@@ -15,6 +15,15 @@ metadata:
   name: demo-spring-boot
   namespace: apps
 spec:
+  # Resource constraints for the application. See
+  # https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
+  # +optional
+  resources:
+    requests:
+      cpu: 500m
+      memory: 256Mi
+    limits:
+      memory: 256Mi
   build:
     env:
     - name: BP_JVM_VERSION
