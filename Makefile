@@ -116,6 +116,14 @@ workload-deploy-observability-native: kubeconfig
 	yq '(.spec.build.env[] | select(.name == "BP_NATIVE_IMAGE") | .value) = "true" | (.spec.build.env[] | select(.name == "BP_MAVEN_BUILD_ARGUMENTS") | .value) = "-Pnative -Dmaven.test.skip=true --no-transfer-progress package" | (.spec.env[] | select (.name == "ENABLE_LOKI").value=true | select (.name == "MANAGEMENT_TRACING_ENABLED")).value=true' config/workload.yaml  | tanzu apps workload apply -f- --yes ;\
 	}
 
+# TAP - Deploy workload without observability and a native image
+workload-deploy-native: kubeconfig
+	{ \
+	set -e ;\
+	yq '(.spec.build.env[] | select(.name == "BP_NATIVE_IMAGE") | .value) = "true" | (.spec.build.env[] | select(.name == "BP_MAVEN_ACTIVE_PROFILES") | .value) = "native" | (.spec.env[] | select (.name == "ENABLE_LOKI").value=false | select (.name == "MANAGEMENT_TRACING_ENABLED")).value=false' config/workload.yaml  | tanzu apps workload apply -f- --yes ;\
+	}
+
+
 # TAP - Undeploy demo-spring-boot workload
 workload-undeploy: kubeconfig
 	{ \
@@ -141,9 +149,7 @@ customers: kubeconfig
 # TAP - Patch the CPU and the memory to change the quotas
 patch: kubeconfig
 	{ \
-	./tap/tap-sandbox/patch-sandbox.sh ;\
-	./tap/tap-sandbox/patch-sandbox-cpu.sh ;\
-	./tap/tap-sandbox/patch-sandbox-memory.sh ;\
+  	echo "Patching is disabled" ;\
 	}
 
 # TAP - deploy the demo-springboot workload on TAP

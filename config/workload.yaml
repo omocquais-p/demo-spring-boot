@@ -15,9 +15,6 @@ metadata:
   name: demo-spring-boot
   namespace: apps
 spec:
-  # Resource constraints for the application. See
-  # https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/
-  # +optional
   resources:
     requests:
       cpu: 500m
@@ -30,8 +27,8 @@ spec:
       value: "17"
     - name: BP_NATIVE_IMAGE
       value: "false"
-    - name: BP_MAVEN_BUILD_ARGUMENTS
-      value: "-Dmaven.test.skip=true --no-transfer-progress package"
+    - name: BP_MAVEN_ACTIVE_PROFILES
+      value: ""
   env:
     - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
       value: health,info,prometheus
