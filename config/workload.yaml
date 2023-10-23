@@ -15,12 +15,6 @@ metadata:
   name: demo-spring-boot
   namespace: apps
 spec:
-#  resources:
-#    requests:
-#      cpu: 500m
-#      memory: 256Mi
-#    limits:
-#      memory: 256Mi
   build:
     env:
     - name: BP_JVM_VERSION
