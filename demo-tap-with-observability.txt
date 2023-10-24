@@ -16,11 +16,10 @@ make observability-uninstall
 clear
 
 #_ECHO_ON
-#_ECHO_# Deploy a workload without observability
-# make install-supply-chain
+#_ECHO_# Deploy a workload with observability
+make observability-install
 make workload-create-claims
-make workload-deploy
-make print-tap-gui-url
+make workload-deploy-observability
 make actuator
 make customers
 #_ECHO_OFF

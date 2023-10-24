@@ -25,7 +25,8 @@ build-native:
 	{ \
 	set -e ;\
 	source /Users/omocquais/.sdkman/bin/sdkman-init.sh ;\
-	sdk use java 17.0.7-graal  ;\
+	sdk install java 23.r17-nik  ;\
+	sdk use java 23.r17-nik  ;\
 	./mvnw clean -Pnative spring-boot:build-image ;\
 	}
 
@@ -143,13 +144,12 @@ customers: kubeconfig
 	{ \
 	set -e ;\
 	./tap/helpers/03-populate-customers.sh ;\
-	./tap/helpers/workload-logs.sh ;\
 	}
 
 # TAP - Patch the CPU and the memory to change the quotas
 patch: kubeconfig
 	{ \
-  	echo "Patching is disabled" ;\
+  	./tap/tap-sandbox/patch-sandbox.sh ;\
 	}
 
 # TAP - deploy the demo-springboot workload on TAP
@@ -193,4 +193,28 @@ grafana-forward: kubeconfig
 	{ \
 	set -e ;\
 	./observability/grafana/port-forward.sh  ;\
+	}
+
+workload-logs-build: kubeconfig
+	{ \
+	set -e ;\
+	tanzu apps workload tail demo-spring-boot --component build  ;\
+	}
+
+workload-logs-run: kubeconfig
+	{ \
+	set -e ;\
+	./tap/helpers/workload-logs.sh --since 3m ;\
+	}
+
+workload-logs-test: kubeconfig
+	{ \
+	set -e ;\
+	tanzu apps workload tail demo-spring-boot --component test  ;\
+	}
+
+print-tap-gui-url: kubeconfig
+	{ \
+	set -e ;\
+	./tap/helpers/print-tap-gui-url.sh  ;\
 	}

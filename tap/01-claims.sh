@@ -3,6 +3,7 @@
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
 source "$SCRIPT_DIR/utils.sh"
 
+info "tanzu services classes list"
 tanzu services classes list
 
 info "REDIS - tanzu service class-claim create redis-1 --class redis-unmanaged"
