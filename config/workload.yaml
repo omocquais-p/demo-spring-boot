@@ -24,8 +24,10 @@ spec:
     - name: BP_MAVEN_ACTIVE_PROFILES
       value: ""
   env:
+    - name: MANAGEMENT_ENDPOINT_ENV_SHOWVALUES
+      value: never
     - name: MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE
-      value: health,info,prometheus
+      value: health,env,info,prometheus
     - name: MANAGEMENT_ZIPKIN_TRACING_ENDPOINT
       value: http://tempo:9411/api/v2/spans
     - name: ENABLE_LOKI

@@ -9,7 +9,7 @@
         </encoder>
     </appender>
 
-    <if condition='isDefined("ENABLE_LOKI")'>
+    <if condition='property("ENABLE_LOKI").contains("true")'>
         <then>
             <appender name="LOKI" class="com.github.loki4j.logback.Loki4jAppender">
                 <http>
@@ -32,7 +32,7 @@
 
         <appender-ref ref="CONSOLE"/>
 
-        <if condition='isDefined("ENABLE_LOKI")'>
+        <if condition='property("ENABLE_LOKI").contains("true")'>
             <then>
                 <appender-ref ref="LOKI"/>
             </then>

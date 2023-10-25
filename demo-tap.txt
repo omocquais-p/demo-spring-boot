@@ -18,6 +18,7 @@ clear
 #_ECHO_ON
 #_ECHO_# Deploy a workload without observability
 # make install-supply-chain
+kubectl get csc
 make workload-create-claims
 make workload-deploy
 make print-tap-gui-url
