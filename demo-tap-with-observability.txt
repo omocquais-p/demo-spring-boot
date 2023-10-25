@@ -1,4 +1,4 @@
-# source /Users/omocquais/IdeaProjects/demorunner/demorunner.sh demo-tap.txt
+# source /Users/omocquais/IdeaProjects/demorunner/demorunner.sh demo-tap-with-observability.txt
 
 #_ECHO_OFF
 
@@ -20,6 +20,7 @@ clear
 make observability-install
 make workload-create-claims
 make workload-deploy-observability
+make print-tap-gui-url
 make actuator
 make customers
 #_ECHO_OFF
