@@ -30,11 +30,13 @@ class CustomerRepositoryTest {
     Customer customer = new Customer();
     customer.setFirstName("John");
     customer.setLastName("Smith");
+    customer.setCompanyName("abc");
 
     Customer saveCustomer = customerRepository.save(customer);
     assertThat(saveCustomer).isNotNull();
     assertThat(saveCustomer.getFirstName()).isNotNull().isEqualTo(customer.getFirstName());
     assertThat(saveCustomer.getLastName()).isNotNull().isEqualTo(customer.getLastName());
+    assertThat(saveCustomer.getCompanyName()).isNotNull().isEqualTo(customer.getCompanyName());
     assertThat(saveCustomer.getUuid()).isNotNull();
 
   }
@@ -46,6 +48,7 @@ class CustomerRepositoryTest {
     Customer customer = new Customer();
     customer.setFirstName("John");
     customer.setLastName("Smith111");
+    customer.setCompanyName("abc");
 
     Customer saveCustomer = customerRepository.save(customer);
     CustomerResponseDTO customerResponseDTO = customerRepository.findCust(saveCustomer.getUuid());
@@ -54,6 +57,7 @@ class CustomerRepositoryTest {
     assertThat(customerResponseDTO.firstName()).isNotNull().isEqualTo(customer.getFirstName());
     assertThat(customerResponseDTO.name()).isNotNull().isEqualTo(customer.getLastName());
     assertThat(customerResponseDTO.uuid()).isNotNull();
+    assertThat(saveCustomer.getCompanyName()).isNotNull().isEqualTo(customer.getCompanyName());
 
   }
 }

@@ -30,27 +30,42 @@ class CustomerServiceTest {
   @Mock
   CustomerCacheRepository customerCacheRepository;
 
+  @Mock
+  CompanyService companyService;
+
   @InjectMocks
   CustomerService customerService;
 
-  @DisplayName("given a customer, it should return a customer response")
+  @DisplayName("given a customer, it should return a customer response with first name, lastname and a company name")
   @Test
   public void create() {
+
+    UUID uuid = UUID.randomUUID();
+
+    Company company = new Company("Kamino");
+
     CustomerDTO customerDTO = new CustomerDTO("John", "Smith");
 
     Customer entity = new Customer();
     entity.setLastName(customerDTO.lastName());
     entity.setFirstName(customerDTO.firstName());
-    entity.setUuid(UUID.randomUUID());
+    entity.setUuid(uuid);
+    entity.setCompanyName(company.name());
 
     when(customerRepository.save(any(Customer.class))).thenReturn(entity);
+    when(companyService.getCompany(customerDTO)).thenReturn(company);
 
     CustomerResponseDTO customerResponseDTO = customerService.create(customerDTO);
 
     verify(customerRepository).save(any());
+    verify(companyService).getCompany(any(CustomerDTO.class));
+
     assertNotNull(customerResponseDTO);
     assertEquals(customerDTO.firstName(), customerResponseDTO.firstName());
     assertEquals(customerDTO.lastName(), customerResponseDTO.name());
+    assertEquals(company.name(), customerResponseDTO.company());
+    assertEquals(uuid, customerResponseDTO.uuid());
+
   }
 
   @DisplayName("given an existing customer with a specific UUID, it should return a customer response that holds customer details")
@@ -58,19 +73,20 @@ class CustomerServiceTest {
   public void get() {
 
     UUID uuid = UUID.randomUUID();
-    String lastName = "Smith";
     String firstName = "John";
+    String lastName = "Smith";
 
     Customer entity = new Customer();
     entity.setLastName(lastName);
     entity.setFirstName(firstName);
     entity.setUuid(uuid);
-    when(customerRepository.findCust(uuid)).thenReturn(new CustomerResponseDTO(uuid, firstName, lastName));
+    when(customerRepository.findCust(uuid)).thenReturn(new CustomerResponseDTO(uuid, firstName, lastName, "Kamino"));
 
     CustomerResponseDTO customerResponseDTO = customerService.get(uuid);
     assertNotNull(customerResponseDTO);
     assertEquals(firstName, customerResponseDTO.firstName());
     assertEquals(lastName, customerResponseDTO.name());
+    assertEquals("Kamino", customerResponseDTO.company());
   }
 
   @DisplayName("given an existing customer with a specific UUID, it should return a customer response that holds customer details and save information into cache")
@@ -86,13 +102,15 @@ class CustomerServiceTest {
     entity.setUuid(uuid);
 
     when(customerCacheRepository.findById(uuid)).thenReturn(Optional.empty());
-    when(customerRepository.findCust(uuid)).thenReturn(new CustomerResponseDTO(uuid, firstName, lastName));
+    when(customerRepository.findCust(uuid)).thenReturn(new CustomerResponseDTO(uuid, firstName, lastName, "Felucia"));
 
     var customerResponseDTO = customerService.get(uuid);
     verify(customerCacheRepository).save(any(CustomerResponseDTO.class));
     assertNotNull(customerResponseDTO);
     assertEquals(firstName, customerResponseDTO.firstName());
     assertEquals(lastName, customerResponseDTO.name());
+    assertEquals("Felucia", customerResponseDTO.company());
+
   }
 
   @DisplayName("given an existing customer with a specific UUID saved into cache, it should return a customer response from cache")
@@ -107,7 +125,7 @@ class CustomerServiceTest {
     entity.setFirstName(firstName);
     entity.setUuid(uuid);
 
-    CustomerResponseDTO responseDTO = new CustomerResponseDTO(uuid, firstName, lastName);
+    CustomerResponseDTO responseDTO = new CustomerResponseDTO(uuid, firstName, lastName, "Felucia");
     when(customerCacheRepository.findById(uuid)).thenReturn(Optional.of(responseDTO));
 
     var customerResponseDTO = customerService.get(uuid);
@@ -116,5 +134,7 @@ class CustomerServiceTest {
     assertNotNull(customerResponseDTO);
     assertEquals(firstName, customerResponseDTO.firstName());
     assertEquals(lastName, customerResponseDTO.name());
+    assertEquals("Felucia", customerResponseDTO.company());
+
   }
 }

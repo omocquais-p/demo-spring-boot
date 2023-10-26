@@ -28,7 +28,7 @@ class CustomerCacheRepositoryTest {
   @Test
   public void shouldRetrieveFromCache() {
     var uuid = UUID.randomUUID();
-    var customerResponseDTO = new CustomerResponseDTO(uuid, "John", "Smith");
+    var customerResponseDTO = new CustomerResponseDTO(uuid, "John", "Smith", "abc");
     var cachedDTO = customerCacheRepository.save(customerResponseDTO);
     assertNotNull(cachedDTO);
 
@@ -38,6 +38,7 @@ class CustomerCacheRepositoryTest {
     assertEquals(customerResponseDTO.uuid(), optCustomerResponseDTO.get().uuid());
     assertEquals(customerResponseDTO.firstName(), optCustomerResponseDTO.get().firstName());
     assertEquals(customerResponseDTO.name(), optCustomerResponseDTO.get().name());
+    assertEquals(customerResponseDTO.company(), optCustomerResponseDTO.get().company());
   }
 
 }

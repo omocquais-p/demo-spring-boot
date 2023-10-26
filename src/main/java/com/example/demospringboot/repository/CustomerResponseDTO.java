@@ -6,5 +6,5 @@ import org.springframework.data.redis.core.RedisHash;
 import java.util.UUID;
 
 @RedisHash("customer")
-public record CustomerResponseDTO(@Id UUID uuid, String firstName, String name) {
+public record CustomerResponseDTO(@Id UUID uuid, String firstName, String name, String company) {
 }

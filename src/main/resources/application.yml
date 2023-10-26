@@ -49,3 +49,6 @@ info:
   app:
     name: Spring Boot Application Demo
 logging.pattern.level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
+api:
+  company:
+    baseUrl: https://swapi.dev/api/planets

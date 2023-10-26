@@ -21,18 +21,27 @@ public class CustomerService {
   private final CustomerRepository customerRepository;
 
   private final CustomerCacheRepository customerCacheRepository;
+  private final CompanyService companyService;
 
-  public CustomerService(CustomerRepository customerRepository, CustomerCacheRepository customerCacheRepository) {
+  public CustomerService(CustomerRepository customerRepository, CustomerCacheRepository customerCacheRepository, CompanyService companyService) {
     this.customerRepository = customerRepository;
     this.customerCacheRepository = customerCacheRepository;
+    this.companyService = companyService;
   }
 
+  @Observed(name = "create",
+          contextualName = "creating-customer",
+          lowCardinalityKeyValues = {"userType", "userType1"})
   public CustomerResponseDTO create(CustomerDTO customerDTO) {
-    Customer entity = new Customer();
-    entity.setFirstName(customerDTO.firstName());
-    entity.setLastName(customerDTO.lastName());
-    Customer savedCustomer = customerRepository.save(entity);
-    return new CustomerResponseDTO(savedCustomer.getUuid(), savedCustomer.getFirstName(), savedCustomer.getLastName());
+
+    Customer custEntity = new Customer();
+    custEntity.setFirstName(customerDTO.firstName());
+    custEntity.setLastName(customerDTO.lastName());
+    custEntity.setCompanyName(companyService.getCompany(customerDTO).name());
+
+    Customer savedCustomer = customerRepository.save(custEntity);
+
+    return new CustomerResponseDTO(savedCustomer.getUuid(), savedCustomer.getFirstName(), savedCustomer.getLastName(), savedCustomer.getCompanyName());
   }
 
   @Observed(name = "get",

@@ -21,6 +21,17 @@ public class Customer {
   @Column(name = "LAST_NAME")
   private String lastName;
 
+  @Column(name = "COMPANY_NAME")
+  private String companyName;
+
+  public String getCompanyName() {
+    return companyName;
+  }
+
+  public void setCompanyName(String companyName) {
+    this.companyName = companyName;
+  }
+
   public UUID getUuid() {
     return uuid;
   }

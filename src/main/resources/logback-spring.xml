@@ -9,6 +9,7 @@
         </encoder>
     </appender>
 
+    <!--    janino is unsupported for native compilation: the next section must be commented -->
     <if condition='property("ENABLE_LOKI").contains("true")'>
         <then>
             <appender name="LOKI" class="com.github.loki4j.logback.Loki4jAppender">
@@ -32,6 +33,7 @@
 
         <appender-ref ref="CONSOLE"/>
 
+<!--    janino is unsupported for native compilation: the next section must be commented -->
         <if condition='property("ENABLE_LOKI").contains("true")'>
             <then>
                 <appender-ref ref="LOKI"/>
