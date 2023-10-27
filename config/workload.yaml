@@ -34,6 +34,8 @@ spec:
       value: true
     - name: MANAGEMENT_TRACING_ENABLED
       value: true
+    - name: API_COMPANY_ENABLED
+      value: false
   params:
     - name: annotations
       value:

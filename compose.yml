@@ -26,6 +26,7 @@ services:
       - MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE=health,info,env,prometheus
       - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411/api/v2/spans
       - ENABLE_LOKI=true
+      - API_COMPANY_ENABLED=false
     depends_on:
       - redis
       - postgres

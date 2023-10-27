@@ -13,4 +13,5 @@ logging:
     org.springframework.data: TRACE
 api:
   company:
+    enabled: true
     baseUrl: http://www.google.com
