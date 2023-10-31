@@ -1,0 +1,30 @@
+# source /Users/omocquais/IdeaProjects/demorunner/demorunner.sh demo-local.txt
+
+#_ECHO_OFF
+
+# Prep for demo
+export DEMO_DELAY=120
+
+# Clean up from previous runs
+
+# Start demo
+clear
+
+#_ECHO_ON
+#_ECHO_# ./mvnw spring-boot:run -P docker-compose
+make start-app-maven-compose
+#_ECHO_OFF
+
+
+#_ECHO_ON
+#_ECHO_# check Health endpoint from actuator
+make actuator-local
+#_ECHO_OFF
+
+#_ECHO_ON
+#_ECHO_# create customers
+make customers-local
+#_ECHO_OFF
+
+#_ECHO_# Questions?
+

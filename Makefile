@@ -65,6 +65,13 @@ start-app-maven:
 	./mvnw spring-boot:run ;\
 	}
 
+# Local - Run the application with docker compose support
+start-app-maven-compose:
+	{ \
+	set -e ;\
+	./mvnw spring-boot:run -P docker-compose ;\
+	}
+
 ################################################################################################################################
 # TAP - Kubernetes
 ################################################################################################################################

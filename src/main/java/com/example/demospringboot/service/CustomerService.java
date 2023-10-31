@@ -41,7 +41,11 @@ public class CustomerService {
 
     Customer savedCustomer = customerRepository.save(custEntity);
 
-    return new CustomerResponseDTO(savedCustomer.getUuid(), savedCustomer.getFirstName(), savedCustomer.getLastName(), savedCustomer.getCompanyName());
+    CustomerResponseDTO customerResponseDTO = new CustomerResponseDTO(savedCustomer.getUuid(), savedCustomer.getFirstName(), savedCustomer.getLastName(), savedCustomer.getCompanyName());
+
+    LOGGER.info("New customer: {}", customerResponseDTO);
+
+    return customerResponseDTO;
   }
 
   @Observed(name = "get",
