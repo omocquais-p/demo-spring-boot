@@ -14,8 +14,19 @@ services:
     hostname: redis
     ports:
       - "6379:6379"
+  wiremock:
+    image: "wiremock/wiremock:latest"
+    extra_hosts: ['host.docker.internal:host-gateway']
+    container_name: my_wiremock
+    entrypoint: ["/docker-entrypoint.sh", "--global-response-templating", "--disable-gzip", "--verbose"]
+    ports:
+      - "3001:8080"
+    volumes:
+      - ./wiremock/__files:/home/wiremock/__files
+      - ./wiremock/mappings:/home/wiremock/mappings
   app:
     image: "demo-spring-boot:0.0.1-SNAPSHOT"
+    extra_hosts: ['host.docker.internal:host-gateway']
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres_demo:5432/customers
       - SPRING_DATASOURCE_USERNAME=admin
@@ -26,10 +37,12 @@ services:
       - MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE=health,info,env,prometheus
       - MANAGEMENT_ZIPKIN_TRACING_ENDPOINT=http://tempo:9411/api/v2/spans
       - ENABLE_LOKI=true
-      - API_COMPANY_ENABLED=false
+      - API_COMPANY_ENABLED=true
+      - API_COMPANY_BASEURL=http://host.docker.internal:3001/api/planets
     depends_on:
       - redis
       - postgres
+      - wiremock
     profiles:
       - observability
     ports:

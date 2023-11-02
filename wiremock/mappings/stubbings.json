@@ -1,0 +1,16 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPattern": "/api/planets/.*"
+  },
+
+  "response": {
+    "status": 200,
+    "jsonBody": {
+      "name": "Kamino-mock-{{randomValue length=2 type='NUMERIC'}}"
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}
