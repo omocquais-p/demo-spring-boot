@@ -23,15 +23,20 @@ class CompanyApiClientTest {
     @Autowired
     MockRestServiceServer mockRestServiceServer;
 
-    @DisplayName("Given an id, it should return the name of company")
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @DisplayName("Given an id, it should return the company name")
     @Test
     public void getCompanyName() throws JsonProcessingException {
         Integer id = 17;
         CompanyDTO dto = new CompanyDTO("Felucia");
+
         mockRestServiceServer.expect(requestTo("/" + id))
-                .andRespond(withStatus(HttpStatus.OK)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body(new ObjectMapper().writeValueAsString(dto)));
+                .andRespond(
+                        withStatus(HttpStatus.OK)
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .body(objectMapper.writeValueAsString(dto)));
 
         CompanyDTO company = companyApiClient.getCompanyName(id);
 

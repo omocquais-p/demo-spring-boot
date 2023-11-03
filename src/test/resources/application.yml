@@ -14,4 +14,4 @@ logging:
 api:
   company:
     enabled: true
-    baseUrl: http://www.google.com
+    baseUrl: http://fakeUrl.com
